@@ -37,6 +37,7 @@ describe('template spec', () => {
         expect(loadingTimeText).to.match(/\d+(\.\d+)?ms/);
       }).then(($p) => {
         const loadingTimeText = $p.text();
+        console.log(loadingTimeText);
         cy.task('log', loadingTimeText);
       });
 

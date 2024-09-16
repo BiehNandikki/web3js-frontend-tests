@@ -2,13 +2,13 @@ import Web3 from 'web3';
 import { useState, useEffect } from 'react';
 
 export default function Web3Component() {
-    const [loadTimeCreate, setLoadTime ] = useState<number>(0);
-    const [loadTimeBlock, setBlockLoadTime ] = useState<number>(0);
-    const [loadTimeBalance, setLoadTimeBalance ] = useState<number>(0);
-    const [loadTimeGasPrice, setLoadTimeGasPrice ] = useState<number>(0);
+    const [loadTimeCreate, setLoadTime ] = useState<number>(-1);
+    const [loadTimeBlock, setBlockLoadTime ] = useState<number>(-1);
+    const [loadTimeBalance, setLoadTimeBalance ] = useState<number>(-1);
+    const [loadTimeGasPrice, setLoadTimeGasPrice ] = useState<number>(-1);
     const [balance, setBalance] = useState<bigint>();
     const [gasPrice, setGasPrice] = useState<bigint>();
-    const [loadTimeAccountsCreate, setLoadTimeAccountsCreate ] = useState<number>(0);
+    const [loadTimeAccountsCreate, setLoadTimeAccountsCreate ] = useState<number>(-1);
 
     
     useEffect(() => {
@@ -80,19 +80,19 @@ export default function Web3Component() {
             Web3 package
         </div>
         <p data-cy="web3-create-time">
-            Load time to create Web3 instance: {loadTimeCreate}ms
+            Load time to create Web3 instance: {loadTimeCreate > 0 ? loadTimeCreate : `Loading...`}ms
         </p>
         <p data-cy="web3-getblock-time">
-            Load time to getBlock from Web3 instance: {loadTimeBlock}ms
+            Load time to getBlock from Web3 instance: {loadTimeBlock > 0 ? loadTimeBlock: `Loading...`}ms
         </p>
         <p data-cy="web3-getBalance-time">
-            Balance: {balance?.toString()} Load time to getBalance from Web3 instance: {loadTimeBalance}ms
+            Balance: {balance?.toString()} Load time to getBalance from Web3 instance: {loadTimeBalance > 0 ? loadTimeBalance : `Loading...`}ms
         </p>
         <p data-cy="web3-getGasprice-time">
-            GasPrice: {gasPrice?.toString()} Load time to getGasPrice from Web3 instance: {loadTimeGasPrice}ms
+            GasPrice: {gasPrice?.toString()} Load time to getGasPrice from Web3 instance: {loadTimeGasPrice > 0 ? loadTimeGasPrice : `Loading...`}ms
         </p>
         <p data-cy="web3-createAccount-time">
-            Load time to create web3-eth-accounts from Web3 instance: {loadTimeAccountsCreate}ms
+            Load time to create web3-eth-accounts from Web3 instance: {loadTimeAccountsCreate > 0 ? loadTimeAccountsCreate: `Loading...`}ms
         </p>
         
     </div>);
