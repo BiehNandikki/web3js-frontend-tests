@@ -1,5 +1,4 @@
 import { create } from 'web3-eth-accounts';
-import Web3 from 'web3';
 import { useState, useEffect } from 'react';
 
 declare global {
@@ -11,36 +10,50 @@ declare global {
 
 export default function Web3Accounts() {
 
-    const [loadTimeAccountsCreate, setLoadTimeAccountsCreate ] = useState<number>(0);
-    const [loadTimeWeb3AccountsCreate, setLoadTimeWeb3AccountsCreate ] = useState<number>(0);
+    const [loadTimeAccountsCreate, setLoadTimeAccountsCreate ] = useState<number>(-1);
+    const [loadTimeAccountsSign, setLoadTimeAccountsSign ] = useState<number>(-1);
+    const [signature, setSignature] = useState<string>("");
 
     useEffect(() => {
-        if (typeof window !== "undefined") {
-      
-            let startTime = performance.now();
-            const wallet = create();
-            let endTime = performance.now();
-            const loadTime = endTime - startTime;
-            window.web3AccountsLoadTime = loadTime
-            setLoadTimeAccountsCreate(loadTime);
-        
-            const web3 = new Web3("");
-            startTime = performance.now();
-            const walletWeb3 = web3.eth.accounts.create();
-            endTime = performance.now();
-            window.web3PackageAccountsLoadTime = endTime - startTime;
-            setLoadTimeWeb3AccountsCreate(endTime - startTime);
-          }
+        const createWallet = async () => {
+            return create();
+        }
 
-    });
+        const signWallet = async (wallet: any) => {
+            const signature = wallet.sign("Hello world");
+            setSignature(signature.signature);
+            return signature;
+        };
+        const web3AccountsInteractions = async () => {
+            let startTime = performance.now();
+            const wallet = await createWallet();
+            let endTime = performance.now();
+            let loadTime = endTime - startTime;
+            setLoadTimeAccountsCreate(loadTime);
+            // sign with account
+            startTime = performance.now();
+            await signWallet(wallet);
+            endTime = performance.now();
+            loadTime = endTime - startTime;
+            setLoadTimeAccountsSign(loadTime);
+        }
+        web3AccountsInteractions();
+            
+
+    }, []);
     
     return (
     <div>
         <div> web3-eth-accounts package
-            <p data-cy="web3-eth-accounts-time">
-                    web3-eth-accounts Create method loading time: {loadTimeAccountsCreate}ms
+            <p data-cy="web3-eth-accounts-create-time">
+                web3-eth-accounts Create method loading time: {loadTimeAccountsCreate > 0 ? loadTimeAccountsCreate : `Loading...`}ms
             </p>
-            <p data-cy="web3-create-time"> web3 main package Create method loading time: {loadTimeWeb3AccountsCreate}ms</p>
+            <p data-cy="web3-eth-accounts-sign-time">
+                web3-eth-accounts Sign method loading time: {loadTimeAccountsSign > 0 ? loadTimeAccountsSign : `Loading...`}ms
+            </p>
+            <p>
+                web3-eth-accounts signature: {signature}
+            </p>
         </div>
     </div>);
 };
