@@ -19,30 +19,40 @@ describe('template spec', () => {
       cy.get('[data-cy="web3-create-time"]').should(($p) => {
         const loadingTimeText = $p.text();
         expect(loadingTimeText).to.match(/\d+(\.\d+)?ms/);
+      }).then(($p) => {
+        const loadingTimeText = $p.text();
         cy.log(loadingTimeText);
       });
 
       cy.get('[data-cy="web3-getblock-time"]').should(($p) => {
         const loadingTimeText = $p.text();
         expect(loadingTimeText).to.match(/\d+(\.\d+)?ms/);
+      }).then(($p) => {
+        const loadingTimeText = $p.text();
         cy.log(loadingTimeText);
       });
 
       cy.get('[data-cy="web3-getBalance-time"]').should(($p) => {
         const loadingTimeText = $p.text();
         expect(loadingTimeText).to.match(/\d+(\.\d+)?ms/);
+      }).then(($p) => {
+        const loadingTimeText = $p.text();
         cy.log(loadingTimeText);
       });
 
       cy.get('[data-cy="web3-getGasprice-time"]').should(($p) => {
         const loadingTimeText = $p.text();
         expect(loadingTimeText).to.match(/\d+(\.\d+)?ms/);
+      }).then(($p) => {
+        const loadingTimeText = $p.text();
         cy.log(loadingTimeText);
       });
       
       cy.get('[data-cy="web3-createAccount-time"]').should(($p) => {
         const loadingTimeText = $p.text();
         expect(loadingTimeText).to.match(/\d+(\.\d+)?ms/);
+      }).then(($p) => {
+        const loadingTimeText = $p.text();
         cy.log(loadingTimeText);
       });
     });
