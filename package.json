@@ -9,14 +9,18 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "next": "14.2.9",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.2.9"
+    "web3": "^4.12.1",
+    "web3-eth-accounts": "^4.2.1"
   },
   "devDependencies": {
-    "typescript": "^5",
+    "@cypress/react": "^8.0.2",
     "@types/node": "^20",
     "@types/react": "^18",
-    "@types/react-dom": "^18"
+    "@types/react-dom": "^18",
+    "cypress": "^13.14.2",
+    "typescript": "^5"
   }
 }
