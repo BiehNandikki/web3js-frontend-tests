@@ -1,15 +1,7 @@
 import Web3EthComponent from './web3eth';
 import { checkLoadTime } from './utils';
-describe('Web3 Component', () => {
-  it('loading in component', () => {
-    cy.mount(<Web3EthComponent/>);
-  })
-})
 
-describe('template spec', () => {
-  it('passes', () => {
-    
-  })
+describe('web3-eth', () => {
   it('measure load time web3-eth-account package', () => {
 
     cy.mount(<Web3EthComponent/>);
