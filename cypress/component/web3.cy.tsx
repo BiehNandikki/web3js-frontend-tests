@@ -29,7 +29,7 @@ describe('template spec', () => {
         expect(loadingTimeText).to.match(/\d+(\.\d+)?ms/);
       }).then(($p) => {
         const loadingTimeText = $p.text();
-        cy.log(loadingTimeText);
+        cy.task('log', loadingTimeText);
       });
 
       cy.get('[data-cy="web3-getBalance-time"]').should(($p) => {
@@ -37,7 +37,7 @@ describe('template spec', () => {
         expect(loadingTimeText).to.match(/\d+(\.\d+)?ms/);
       }).then(($p) => {
         const loadingTimeText = $p.text();
-        cy.log(loadingTimeText);
+        cy.task('log', loadingTimeText);
       });
 
       cy.get('[data-cy="web3-getGasprice-time"]').should(($p) => {
@@ -45,7 +45,7 @@ describe('template spec', () => {
         expect(loadingTimeText).to.match(/\d+(\.\d+)?ms/);
       }).then(($p) => {
         const loadingTimeText = $p.text();
-        cy.log(loadingTimeText);
+        cy.task('log', loadingTimeText);
       });
       
       cy.get('[data-cy="web3-createAccount-time"]').should(($p) => {
@@ -53,7 +53,7 @@ describe('template spec', () => {
         expect(loadingTimeText).to.match(/\d+(\.\d+)?ms/);
       }).then(($p) => {
         const loadingTimeText = $p.text();
-        cy.log(loadingTimeText);
+        cy.task('log', loadingTimeText);
       });
     });
   })
