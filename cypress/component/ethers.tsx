@@ -16,49 +16,33 @@ export default function ethersComponent() {
     const [signature, setSignature] = useState<string>();
 
     useEffect(() => {
-        const createProvider = async () => {
-            return new ethers.InfuraProvider("sepolia","4434a7b126ac4ebdaa6eba9bb94075a7");
-        }
-        const getBlock = async (provider:InfuraProvider) => {
-            const block = await provider.getBlockNumber();
-            setBlock(block);
-        };
-        const getBalance = async (provider:InfuraProvider) => {
-            const balance = await provider.getBalance("0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045");
-            setBalance(balance);
-        };
-        const getChain = async (provider:InfuraProvider) => {
-            const chain = await provider.getNetwork();
-            setChain(chain.chainId);
-        };
-        const getSignature = async (wallet: HDNodeWallet) => {
-            const signature = await wallet.signMessage("Hello world");
-            setSignature(signature);
-        }
         const ethersInteractions = async () => {
             let startTime = performance.now();
-            const provider = await createProvider();
+            const provider = await new ethers.InfuraProvider("sepolia","4434a7b126ac4ebdaa6eba9bb94075a7");
             let endTime = performance.now();
             let loadTime = endTime - startTime;
             setLoadTimeCreateProvider(loadTime);
 
             startTime = performance.now();
-            await getBlock(provider);
+            const block = await provider.getBlockNumber();
             endTime = performance.now();
             loadTime = endTime - startTime;
             setLoadTimeGetBlock(loadTime);
+            setBlock(block);
 
             startTime = performance.now();
-            await getBalance(provider);
+            const balance = await provider.getBalance("0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045");
             endTime = performance.now();
             loadTime = endTime - startTime;
             setLoadTimeGetBalance(loadTime);
+            setBalance(balance);
 
             startTime = performance.now();
-            await getChain(provider);
+            const chain = await provider.getNetwork();
             endTime = performance.now();
             loadTime = endTime - startTime;
             setLoadTimeGetChain(loadTime);
+            setChain(chain.chainId);
 
             startTime = performance.now();
             const wallet = await ethers.Wallet.createRandom(); 
@@ -67,10 +51,11 @@ export default function ethersComponent() {
             setLoadTimeCreateWallet(loadTime);
 
             startTime = performance.now();
-            await getSignature(wallet);
+            const signature = await wallet.signMessage("Hello world");
             endTime = performance.now();
             loadTime = endTime - startTime;
             setLoadTimeSign(loadTime);
+            setSignature(signature);
         };
         ethersInteractions();
 
@@ -94,7 +79,7 @@ export default function ethersComponent() {
             <p data-cy="ethers-getWallet-time">
                 Ethers Create wallet loading time: {loadTimeCreateWallet ? loadTimeCreateWallet : 'Loading...'}ms
             </p>
-            <p data-cy="ethers-getWallet-time">
+            <p data-cy="ethers-sign-time">
                 Ethers sign with wallet loading time: {loadTimeSign ? loadTimeSign : 'Loading...'}ms
             </p>
             <p>
@@ -103,9 +88,9 @@ export default function ethersComponent() {
             <p>
                 Ethers get Balance from address 0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045: {balance ? balance.toString() : 'Loading...'}
             </p>
-            <p>
+            {/* <p>
                 Ethers get chain: {chain?.toString() ? chain.toString() : 'Loading...'}
-            </p>
+            </p> */}
             <p>
                 Ethers get signature: {signature ? signature : 'Loading...'}
             </p>

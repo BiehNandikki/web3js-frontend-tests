@@ -26,59 +26,43 @@ export default function viemComponent() {
 
 
     useEffect(() => {
-        const getBlock = async (client: Client<Transport, Chain, Account, RpcSchema, PublicActions>) => {
-            const block = await client.getBlockNumber();
-            setBlock(block);
-        }
-        const createClient = async () => {
-            return createPublicClient({
-                chain: sepolia,
-                transport: http("https://eth-sepolia.api.onfinality.io/public"),
-            });
-        }
-        const getBalance = async (client: Client<Transport, Chain, Account, RpcSchema, PublicActions>) => {
-            const balance = await client.getBalance({address: "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045"});
-            setBalance(balance);
-        };
-        const getChainId = async (client: Client<Transport, Chain, Account, RpcSchema, PublicActions>) => {
-            const chainId = await client.getChainId();
-            setChainId(chainId);
-        };
-        const getWalletClient = async () => {
-            const walletClient = createWalletClient({
-                chain: sepolia,
-                transport: http(),
-            });
-            return walletClient;
-        };
 
         const viemInteractions = async () => {
             let startTime = performance.now();
-            const client = await createClient();
+            const client = await createPublicClient({
+                chain: sepolia,
+                transport: http("https://sepolia.infura.io/v3/4434a7b126ac4ebdaa6eba9bb94075a7"),
+            });
             let endTime = performance.now();
             let loadTime = endTime - startTime;
             setLoadTimeCreateClient(loadTime);
 
             startTime = performance.now();
-            await getBlock(client as unknown as Client<Transport, Chain, Account, RpcSchema, PublicActions>);
+            const block = await client.getBlockNumber();
             endTime = performance.now();
             loadTime = endTime - startTime;
             setLoadTimeBlock(loadTime);
+            setBlock(block);
 
             startTime = performance.now();
-            await getBalance(client as unknown as Client<Transport, Chain, Account, RpcSchema, PublicActions>);
+            const balance = await client.getBalance({address: "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045"});
             endTime = performance.now();
             loadTime = endTime - startTime;
             setLoadTimeBalance(loadTime);
+            setBalance(balance);
 
             startTime = performance.now();
-            await getChainId(client as unknown as Client<Transport, Chain, Account, RpcSchema, PublicActions>);
+            const chainId = await client.getChainId();
             endTime = performance.now();
             loadTime = endTime - startTime;
             setLoadTimeChainId(loadTime);
+            setChainId(chainId);
 
             startTime = performance.now();
-            const walletClient = await getWalletClient();
+            const walletClient = await createWalletClient({
+                chain: sepolia,
+                transport: http(),
+            });
             endTime = performance.now();
             loadTime = endTime - startTime;
             setLoadTimeCreateWalletClient(loadTime);
