@@ -21,6 +21,8 @@
     "@types/react": "^18",
     "@types/react-dom": "^18",
     "cypress": "^13.14.2",
-    "typescript": "^5"
+    "ethers": "^6.13.2",
+    "typescript": "^5",
+    "viem": "^2.21.8"
   }
 }

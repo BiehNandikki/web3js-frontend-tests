@@ -6,7 +6,7 @@ declare global {
         web3AccountsLoadTime: any;
         web3PackageAccountsLoadTime: any;
     }
-  }
+}
 
 export default function Web3Accounts() {
 

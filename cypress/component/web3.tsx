@@ -114,7 +114,7 @@ export default function Web3Component() {
             Load time to create web3-eth-accounts from Web3 instance: {loadTimeAccountsCreate > 0 ? loadTimeAccountsCreate: `Loading...`}ms
         </p>
         <p data-cy="web3-getChainId-time">
-            Load time to get chainId from Web3 instance: {loadTimeAccountsCreate > 0 ? loadTimeAccountsCreate: `Loading...`}ms
+            Load time to get chainId from Web3 instance: {loadTimeGetChainId > 0 ? loadTimeGetChainId: `Loading...`}ms
         </p>
         <p data-cy="web3-getSignature-time">
             Load time to get get signature from Web3 instance: {loadTimeGetSignature > 0 ? loadTimeGetSignature: `Loading...`}ms
