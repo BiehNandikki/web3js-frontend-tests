@@ -9,10 +9,12 @@ export default function Web3Component() {
     const [loadTimeAccountsCreate, setLoadTimeAccountsCreate ] = useState<number>(-1);
     const [loadTimeGetChainId, setLoadTimeGetChainId ] = useState<number>(-1);
     const [loadTimeGetSignature, setLoadTimeGetSignature ] = useState<number>(-1);
+    const [loadTimeSignTransaction, setLoadTimeSignTransaction] = useState<number>(-1);
     const [balance, setBalance] = useState<bigint>();
     const [gasPrice, setGasPrice] = useState<bigint>();
     const [chainId, setChainId] = useState<bigint>();
     const [signature, setSignature] = useState<string>();
+    const [signedTransaction, setSignedTransaction] = useState<string>();
     const [block, setBlock] = useState<bigint>();
 
     
@@ -30,27 +32,27 @@ export default function Web3Component() {
                 setLoadTime(loadTime);
     
                 // get Block
-                startTime = performance.now();
-                const block = await web3.eth.getBlock("latest");
-                endTime = performance.now();
-                loadTime = endTime - startTime;
-                setBlockLoadTime(loadTime);
-                setBlock(block.number);
+                // startTime = performance.now();
+                // const block = await web3.eth.getBlock("latest");
+                // endTime = performance.now();
+                // loadTime = endTime - startTime;
+                // setBlockLoadTime(loadTime);
+                // setBlock(block.number);
 
                 // get Balance
-                startTime = performance.now();
-                const getBalance = await web3.eth.getBalance("0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045");
-                endTime = performance.now();
-                loadTime = endTime - startTime;
-                setLoadTimeBalance(loadTime);
-                setBalance(getBalance);
+                // startTime = performance.now();
+                // const getBalance = await web3.eth.getBalance("0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045");
+                // endTime = performance.now();
+                // loadTime = endTime - startTime;
+                // setLoadTimeBalance(loadTime);
+                // setBalance(getBalance);
 
                 // get gas price
-                startTime = performance.now();
-                const gasprice = await web3.eth.getGasPrice();
-                endTime = performance.now();
-                setLoadTimeGasPrice(endTime - startTime);
-                setGasPrice(gasprice);
+                // startTime = performance.now();
+                // const gasprice = await web3.eth.getGasPrice();
+                // endTime = performance.now();
+                // setLoadTimeGasPrice(endTime - startTime);
+                // setGasPrice(gasprice);
 
                 // create web3-eth-accounts instance
                 startTime = performance.now();
@@ -59,11 +61,11 @@ export default function Web3Component() {
                 setLoadTimeAccountsCreate(endTime - startTime);
 
                 // get chainId
-                startTime = performance.now();
-                const chainId = await web3.eth.getChainId();
-                endTime = performance.now();
-                setLoadTimeGetChainId(endTime - startTime);
-                setChainId(chainId);
+                // startTime = performance.now();
+                // const chainId = await web3.eth.getChainId();
+                // endTime = performance.now();
+                // setLoadTimeGetChainId(endTime - startTime);
+                // setChainId(chainId);
 
                 // signing
                 startTime = performance.now();
@@ -71,6 +73,15 @@ export default function Web3Component() {
                 endTime = performance.now();
                 setLoadTimeGetSignature(endTime - startTime);
                 setSignature(signature.signature);
+
+                // sign a transaction
+                startTime = performance.now();
+                const signedTransaction = await web3.eth.accounts.signTransaction({from: walletWeb3.address, to: "0xd8dA6BF26964aF9D7eEd9e03E53415D37aA96045", value: "0", gas: "21000", gasPrice: "21000"}, walletWeb3.privateKey);
+                endTime = performance.now();
+                console.log(signedTransaction)
+                setLoadTimeSignTransaction(endTime - startTime);
+                setSignedTransaction(signedTransaction.rawTransaction);
+                
 
               }
 
@@ -86,7 +97,7 @@ export default function Web3Component() {
         <p data-cy="web3-create-time">
             Load time to create Web3 instance: {loadTimeCreate > 0 ? loadTimeCreate : `Loading...`}ms
         </p>
-        <p data-cy="web3-getblock-time">
+        {/* <p data-cy="web3-getblock-time">
             Load time to getBlock from Web3 instance: {loadTimeBlock > 0 ? loadTimeBlock: `Loading...`}ms
         </p>
         <p data-cy="web3-getChainId-time">
@@ -97,28 +108,31 @@ export default function Web3Component() {
         </p>
         <p data-cy="web3-getGasprice-time">
             Load time to getGasPrice from Web3 instance: {loadTimeGasPrice > 0 ? loadTimeGasPrice : `Loading...`}ms
-        </p>
+        </p> */}
         <p data-cy="web3-createAccount-time">
             Load time to create web3-eth-accounts from Web3 instance: {loadTimeAccountsCreate > 0 ? loadTimeAccountsCreate: `Loading...`}ms
         </p>
         <p data-cy="web3-getSignature-time">
-            Load time to get signature from Web3 instance: {loadTimeGetSignature > 0 ? loadTimeGetSignature: `Loading...`}ms
+            Load time to get sign a message from Web3 instance: {loadTimeGetSignature > 0 ? loadTimeGetSignature: `Loading...`}ms
         </p>
-        <p>
+        <p data-cy="web3-getSignedTransaction-time">
+            Load time to get a signed transaction from Web3 instance: {loadTimeSignTransaction > 0 ? loadTimeSignTransaction: `Loading...`}ms
+        </p>
+        {/* <p>
             Block number: {block?.toString()}
         </p>
         <p>
             ChainID: {chainId ? chainId.toString(): `Loading...`}
-        </p>
+        </p> */}
         <p>
             Signature: {signature ? signature: `Loading...`}
         </p>
-        <p>
+        {/* <p>
             Balance: {balance?.toString()} 
         </p>
         <p>
             Gas price: {gasPrice?.toString()}
-        </p>
+        </p> */}
         
     </div>);
 };

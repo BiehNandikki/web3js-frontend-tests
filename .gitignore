@@ -34,3 +34,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+ethers_test_results.txt
+web3_test_results.txt
+viem_test_results.txt

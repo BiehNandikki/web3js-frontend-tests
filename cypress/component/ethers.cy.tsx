@@ -1,4 +1,4 @@
-import { checkLoadTime } from "./utils";
+import { checkLoadTime, logging } from "./utils";
 import EthersComponent from './ethers';
 
 describe(`Ethers Component`, () => {
@@ -18,7 +18,8 @@ describe(`Ethers Component`, () => {
         // getBalanceTime: [],
         // createAccountTime: [],
         getWalletTime: [],
-        getSignTime: [],
+        getSignMessageTime: [],
+        getSignTransactionTime: [],
     };
 
     for (let i = 0; i < totalIterations; i++) {
@@ -30,7 +31,8 @@ describe(`Ethers Component`, () => {
                 // cy.get('[data-cy="ethers-getBalance-time"]').as('getBalanceTime');
                 // cy.get('[data-cy="ethers-getChain-time"]').as('getChainIdTime');
                 cy.get('[data-cy="ethers-getWallet-time"]').as('getWalletTime');
-                cy.get('[data-cy="ethers-sign-time"]').as('getSignTime');
+                cy.get('[data-cy="ethers-sign-time"]').as('getSignMessageTime');
+                cy.get('[data-cy="ethers-signTransaction-time"]').as('getSignTransactionTime');
                 
                 
                 checkLoadTime('@createProvider', 'Ethers create client Time').then((time) => averages['createProvider'].push(time));
@@ -38,19 +40,14 @@ describe(`Ethers Component`, () => {
                 // checkLoadTime('@getBalanceTime', 'Ethers create get Balance Time').then((time) => averages['getBalanceTime'].push(time));
                 // checkLoadTime('@getChainIdTime', 'Ethers create client Time').then((time) => averages['getChainIdTime'].push(time));
                 checkLoadTime('@getWalletTime', 'Ethers create get wallet Time').then((time) => averages['getWalletTime'].push(time));
-                checkLoadTime('@getSignTime', 'Ethers create get sign Time').then((time) => averages['getSignTime'].push(time));
-
+                checkLoadTime('@getSignMessageTime', 'Ethers create get sign message Time').then((time) => averages['getSignMessageTime'].push(time));
+                checkLoadTime('@getSignTransactionTime', 'Ethers create get sign transaction Time').then((time) => averages['getSignTransactionTime'].push(time));
+                
             });
         });
     };
 
     after(() => {
-        // Calculate averages and log them after all iterations are done
-        cy.task('log', `Ethers Component ${totalIterations} iterations`);
-        Object.keys(averages).forEach((key) => {
-          const total = averages[key].reduce((acc, cur) => acc + cur, 0);
-          const average = total / totalIterations;
-          cy.task('log', `${key} - Average load time: ${average.toFixed(2)}ms`);
-        });
+        logging(cy, 'ethers', averages, totalIterations);
       });
 });
