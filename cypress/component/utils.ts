@@ -1,4 +1,3 @@
-
 export const checkLoadTime = (alias: string, label: string) => {
     const time = cy.get(alias).should('not.contain', 'Loading...')
     .should(($p) => {
@@ -16,13 +15,17 @@ export const checkLoadTime = (alias: string, label: string) => {
     return time;
   }
 
-export const logging = (cy: Cypress.cy, title: string, averages: Record<string, number[]>, totalIterations: number) => {
-  cy.task('log', `${title} Component ${totalIterations} iterations`);
+  export const logging = (cy: Cypress.cy, title: string, averages: Record<string, number[]>, totalIterations: number) => {
+    // Cypress Log header for the test
+    cy.task('log', `${title} Component ${totalIterations} iterations`);
+  
+    // Send the data to the task to be written to CSV
     Object.keys(averages).forEach((key) => {
       const total = averages[key].reduce((acc, cur) => acc + cur, 0);
       const average = total / totalIterations;
-      const data = `${key} - Average load time: ${average.toFixed(2)}ms`;
-      cy.task('log', data);
-      cy.task('logToTxt', { filename: title+'_test_results.txt', data: data })
+  
+      const data = `${key},${average.toFixed(2)},${title},${totalIterations}\n`;
+  
+      cy.task('logToCsv', { filename: `${title}_test_results.csv`, data });
     });
-};
+  };

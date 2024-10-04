@@ -20,21 +20,26 @@ export default defineConfig({
           console.log(message);
           return null;
         },
-        logToTxt({ filename, data }) {
-          const filePath = path.join(__dirname, filename);
+        // Add logToCsv task
+        logToCsv({ filename, data }) {
+          const logsDir = path.join(__dirname, '.', 'logs');
+          const csvFilePath = path.join(logsDir, filename);
 
-          // Append data to the file
-          return new Promise((resolve, reject) => {
-            fs.appendFile(filePath, data + '\n', (err) => {
-              if (err) {
-                console.error('Error writing to file:', err);
-                return reject(err);
-              }
-              resolve(null);
-            });
-          });
-        },
+          // Ensure the logs directory exists
+          if (!fs.existsSync(logsDir)) {
+            fs.mkdirSync(logsDir);
+          }
 
+          // If the CSV file doesn't exist, create it and write the header
+          if (!fs.existsSync(csvFilePath)) {
+            const header = 'Method,Average Load Time (ms),Title,Total iterations ran\n';
+            fs.writeFileSync(csvFilePath, header);
+          }
+
+          // Append the data row to the CSV file
+          fs.appendFileSync(csvFilePath, data);
+          return null;
+        }
       });
       return config;
     },

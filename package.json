@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "csv-generate": "^4.4.1",
+    "fs": "^0.0.1-security",
     "next": "14.2.9",
     "react": "^18",
     "react-dom": "^18",
